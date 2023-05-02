@@ -1,0 +1,16 @@
+.MuiOutlinedInput-notchedOutline {
+    border-width: 1px !important;
+    border-color: wheat !important;
+}
+
+.Mui-focused .MuiOutlinedInput-notchedOutline {
+    border-color: white !important;
+}
+
+.MuiInputLabel-root {
+    color: white !important;
+}
+
+.MuiSelect-nativeInput,.MuiSvgIcon-fontSizeMedium ,.MuiOutlinedInput-root {
+    color: white !important;
+}
