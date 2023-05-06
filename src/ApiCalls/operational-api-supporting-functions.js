@@ -25,7 +25,7 @@ async function executeRequest(accessToken, url, errorMessage) {
   }
 }
 
-async function executePOSTRequest(accessToken, url, errorMessage) {
+async function executePOSTRequest(accessToken, url, errorMessage,equipmentId) {
     const requestConfig = {
         method: 'POST',
         url,
@@ -37,7 +37,7 @@ async function executePOSTRequest(accessToken, url, errorMessage) {
         data: 
             {
                 "equipmentIds": [
-                    "ken:100554477"
+                    `ken:${equipmentId}`
                 ]
             }
         
@@ -81,6 +81,16 @@ export async function fetchServiceOrdersList(accessToken, equipmentId){
 }
 
 /**
+ * Function to fetch list of service orders for the equipment
+ * @param accessToken valid access token
+ * @param equipmentId equipment identifier with ken prefix. e.g ken:123456789
+ */
+export async function fetchWorkServiceOrdersList(accessToken, equipmentId,orderId) {
+    return executeRequest(accessToken, `${API_EQUIPMENT_ENDPOINT}/${equipmentId}/serviceOrders/${orderId}`, 'Failed to fetch list of service orders:')
+}
+
+
+/**
  * Function to fetch details of an service order for the equipment
  * @param accessToken valid access token
  * @param equipmentId equipment identifier with ken prefix. e.g ken:123456789
@@ -94,4 +104,11 @@ export async function fetchAvailability(accessToken, equipmentId,) {
     console.log(equipmentId);
     return executePOSTRequest(accessToken, `${API_EQUIPMENT_ENDPOINT}/search/availability/`, 'Failed to fetch details of the service order:')
 }
+
+
+export async function fetchMovementList(accessToken,equipmentId) {
+    return executePOSTRequest(accessToken, `${API_EQUIPMENT_ENDPOINT}/search/movement`, 'Failed to fetch details of the service order:',equipmentId)
+}
+
+
 

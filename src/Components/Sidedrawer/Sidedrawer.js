@@ -8,7 +8,7 @@ import { fetchServiceOrdersList } from '../../ApiCalls/operational-api-supportin
 function Sidedrawer() {
 
     var { kenExisting, showLoader, hideLoader, serviceOrdersList, setServiceOrdersList } = useContext(KenContext);
-    const [currentKen, setCurrentKen] = useState();
+    const [currentKen, setCurrentKen] = useState(111111111);
     const CLIENT_ID = '355a084b-3085-42cf-892f-8b89aaa17779';
     const CLIENT_SECRET = 'c84f0df1ac6ce103512e06e1938a45de0fc0a4b22cc7f204a860ebcaa494cad5';
     var scope = ['serviceinfo/']
@@ -18,17 +18,24 @@ function Sidedrawer() {
     })
 
     const handleChange = async (e) => {
-        //fetchKenData(e.target.value);
         showLoader();
-        setCurrentKen(e.target.value);
+        localStorage.setItem('activeKen', (e.target.value));
         scope = [`serviceinfo/ken:${e.target.value}`]
         await fetchAccessToken(CLIENT_ID, CLIENT_SECRET, scope).then(async(value) => {
             var accessTokeServiceInfo = value;
-            var serviceOrderList = await fetchServiceOrdersList(accessTokeServiceInfo, `ken:${e.target.value}`);
-            setServiceOrdersList(serviceOrderList);
-            console.log(serviceOrderList);
+            await fetchServiceOrdersList(accessTokeServiceInfo, `ken:${e.target.value}`).then((value) => {
+                    console.log(value)
+                    setServiceOrdersList(value);
+            }).catch((error) => {
+                    console.log(error+"npooooo")
+                    setServiceOrdersList('');
+                    hideLoader();
+                });
+            //console.log(serviceOrderList);
             hideLoader();
         }).catch((error) => {
+            console.log(error + "npooooo")
+            setServiceOrdersList('');
             hideLoader();
         })
     }
