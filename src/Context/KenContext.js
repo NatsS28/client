@@ -17,6 +17,15 @@ export function KenProvider({ children }) {
     const [serviceOrdersList, setServiceOrdersList] = useState([]);
     const [equipmentInfo, setEquipmentInfo] = useState([]);
     const [serviceiddetail, setServiceiddetail] = useState([]);
+    const [isShow, setisShow] = useState(false);
+    
+    const showLoader = () => {
+        setisShow(true);
+    }
+
+    const hideLoader = () => {
+        setisShow(false);
+    }
 
 
 
@@ -68,7 +77,7 @@ export function KenProvider({ children }) {
                 setEquipmentStatus,
                 setServiceOrdersList,
                 setEquipmentInfo,
-                setServiceiddetail,fetchKenData
+                setServiceiddetail,fetchKenData,isShow,showLoader,hideLoader
             }}>
             {children}
         </KenContext.Provider>
