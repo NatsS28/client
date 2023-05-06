@@ -2,19 +2,35 @@ import { FormControl, InputLabel, MenuItem, Select } from '@mui/material'
 import React, { useContext, useEffect, useState } from 'react'
 import { KenContext } from '../../Context/KenContext';
 import './SideDrawer.css';
+import { fetchAccessToken } from '../../ApiCalls/Api';
+import { fetchServiceOrdersList } from '../../ApiCalls/operational-api-supporting-functions';
 
 function Sidedrawer() {
 
-    const { kenExisting,fetchKenData } = useContext(KenContext);
+    var { kenExisting, showLoader, hideLoader, serviceOrdersList, setServiceOrdersList } = useContext(KenContext);
     const [currentKen, setCurrentKen] = useState();
+    const CLIENT_ID = '355a084b-3085-42cf-892f-8b89aaa17779';
+    const CLIENT_SECRET = 'c84f0df1ac6ce103512e06e1938a45de0fc0a4b22cc7f204a860ebcaa494cad5';
+    var scope = ['serviceinfo/']
 
     useEffect(() => {
         console.log(kenExisting);
     })
 
-    const handleChange = (e) => {
+    const handleChange = async (e) => {
         //fetchKenData(e.target.value);
+        showLoader();
         setCurrentKen(e.target.value);
+        scope = [`serviceinfo/ken:${e.target.value}`]
+        await fetchAccessToken(CLIENT_ID, CLIENT_SECRET, scope).then(async(value) => {
+            var accessTokeServiceInfo = value;
+            var serviceOrderList = await fetchServiceOrdersList(accessTokeServiceInfo, `ken:${e.target.value}`);
+            setServiceOrdersList(serviceOrderList);
+            console.log(serviceOrderList);
+            hideLoader();
+        }).catch((error) => {
+            hideLoader();
+        })
     }
   return (
       <div>
@@ -26,12 +42,12 @@ function Sidedrawer() {
                   id="demo-simple-select"
                   value={currentKen}
                   label="Ken"
-                  onChange={handleChange}
+                  onChange={(e)=>handleChange(e)}
               >
     
                   {kenExisting.map((ken) => {
                       return (
-                          <MenuItem value={ken} onChange={()=>{handleChange()}}>{ken}</MenuItem>
+                          <MenuItem value={ken.id} onChange={(e)=>{handleChange(e)}}>{ken.id}</MenuItem>
                       )
                   })
                       
