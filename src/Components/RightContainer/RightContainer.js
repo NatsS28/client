@@ -36,8 +36,6 @@ function RightContainer() {
             }).catch((err) => {
                 console.log(err);
             })
-            
-            //console.log(serviceOrderList);
             hideLoader();
         }).catch((error) => {
             setWorkOrderList('');
@@ -46,9 +44,9 @@ function RightContainer() {
     }
 
     return (
-        <>
-            <h2>Service Order List</h2>
-            {serviceOrdersList && serviceOrdersList.map((orderlist) => {
+        <div className='container_right'>
+            <h1>Service Order List</h1>
+            {Object.keys(serviceOrdersList).length > 0 ? serviceOrdersList.map((orderlist) => {
                 return (
                     <div className='right'>
 
@@ -63,73 +61,86 @@ function RightContainer() {
                             <h2 className='value'>{orderlist.customerEquipmentNumber}</h2>
                         </div>}
                         {orderlist.activityType === 'Callout' && <div className='card'>
-                            <div className='prompt'><h1>Service Order ID number</h1></div>
+                            <div className='prompt'><h1>Service Order ID Number</h1></div>
                             <br></br>
                             <h2 className='value'>{orderlist.customerServiceOrderId}</h2>
                         </div>}
                         {orderlist.activityType === 'Callout' && <div className='card'>
-                            <div className='prompt'><h1>ServiceOrderNumber</h1></div>
+                            <div className='prompt'><h1>ServiceorderNumber</h1></div>
                             <br></br>
                             <h2 className='value'>{orderlist.serviceOrderNumber}</h2>
                         </div>}
                         <div className='card' onClick={(e) => { handleClick(orderlist.workOrderNumber) }}>
-                            <div className='prompt'><h1>Work order Number</h1></div>
+                            <div className='prompt'><h1>Work Order Number</h1></div>
                             <br></br>
                             <h2 className='value'>{orderlist.workOrderNumber}</h2>
                         </div>
                     </div>
                 )
-            })
+            }) : <div>Select Ken to display data</div>
 
             }
-            <h2>Work order Info</h2>
+            
             {Object.keys(workOrderList).length > 0 ?
-                <div className='right'>
+                <>
+                    <h1>Work order Info</h1>
+                    <div className='right'>
 
-                    <div className='card'>
-                        <div className='prompt'><h1>Status</h1></div>
-                        <br></br>
-                        <h2 className='value'>{workOrderList.status}</h2>
-                    </div>
-                    {<div className='card'>
-                        <div className='prompt'><h1>Job Description</h1></div>
-                        <br></br>
-                        <h2 className='value'>{workOrderList.jobDescription}</h2>
-                    </div>}
-                    {<div className='card'>
-                        <div className='prompt'><h1>Customer</h1></div>
-                        <br></br>
-                        <h2 className='value'>{workOrderList.customer}</h2>
-                    </div>}
-                    {<div className='card'>
-                        <div className='prompt'><h1>Work Time</h1></div>
-                        <br></br>
-                        <h2 className='value'>{workOrderList.workTime} hours</h2>
-                    </div>}
-                    <div className='card' >
-                        <div className='prompt'><h1>companyCode</h1></div>
-                        <br></br>
-                        <h2 className='value'>{workOrderList.companyCode}</h2>
-                    </div>
-                </div> : 
-                <div>Click work order to display data</div>
+                        <div className='card'>
+                            <div className='prompt'><h1>Status</h1></div>
+                            <br></br>
+                            <h2 className='value'>{workOrderList.status}</h2>
+                        </div>
+                        {<div className='card'>
+                            <div className='prompt'><h1>Job Description</h1></div>
+                            <br></br>
+                            <h2 className='value desc'>{workOrderList.jobDescription}</h2>
+                        </div>}
+                        {<div className='card'>
+                            <div className='prompt'><h1>Customer</h1></div>
+                            <br></br>
+                            <h2 className='value'>{workOrderList.customer}</h2>
+                        </div>}
+                        {<div className='card'>
+                            <div className='prompt'><h1>Work Time</h1></div>
+                            <br></br>
+                            <h2 className='value'>{workOrderList.workTime} hours</h2>
+                        </div>}
+                        <div className='card' >
+                            <div className='prompt'><h1>Company Code</h1></div>
+                            <br></br>
+                            <h2 className='value'>{workOrderList.companyCode}</h2>
+                        </div>
+                    </div> 
+                </> : 
+                <div>{Object.keys(serviceOrdersList).length > 0 ? <h3>Click work order to display data</h3>:null}</div>
 
             }
 
-            {Object.keys(movementList).length > 0 ?
+            {Object.keys(workOrderList).length > 0 && Object.keys(movementList).length > 0 ?
                 <div className='right'>
 
                     <div className='card'>
-                        <div className='prompt'><h1>Load percent</h1></div>
+                        <div className='prompt'><h1>Load Percent</h1></div>
                         <br></br>
                         <h2 className='value'>{movementList[0].decks[0].loadPercentage}</h2>
+                    </div>
+                    <div className='card'>
+                        <div className='prompt'><h1>Starting from</h1></div>
+                        <br></br>
+                        <h2 className='value'>Floor {movementList[0].decks[0].startFloor.floorIndex}</h2>
+                    </div>
+                    <div className='card'>
+                        <div className='prompt'><h1>To </h1></div>                                                                                                              
+                        <br></br>
+                        <h2 className='value'>Floor {movementList[0].decks[0].stopFloor.floorIndex}</h2>
                     </div>
                     </div>
                 : null
                 
             }
 
-        </>
+        </div>
   )
 }
 

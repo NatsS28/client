@@ -7,8 +7,8 @@ import { fetchServiceOrdersList } from '../../ApiCalls/operational-api-supportin
 
 function Sidedrawer() {
 
-    var { kenExisting, showLoader, hideLoader, serviceOrdersList, setServiceOrdersList } = useContext(KenContext);
-    const [currentKen, setCurrentKen] = useState(111111111);
+    var { kenExisting, showLoader, hideLoader, serviceOrdersList, setServiceOrdersList, setWorkOrderList } = useContext(KenContext);
+    const [currentKen, setCurrentKen] = useState();
     const CLIENT_ID = '355a084b-3085-42cf-892f-8b89aaa17779';
     const CLIENT_SECRET = 'c84f0df1ac6ce103512e06e1938a45de0fc0a4b22cc7f204a860ebcaa494cad5';
     var scope = ['serviceinfo/']
@@ -18,6 +18,7 @@ function Sidedrawer() {
     })
 
     const handleChange = async (e) => {
+        setWorkOrderList([]);
         showLoader();
         localStorage.setItem('activeKen', (e.target.value));
         scope = [`serviceinfo/ken:${e.target.value}`]
@@ -41,7 +42,7 @@ function Sidedrawer() {
     }
   return (
       <div>
-          <h2>Ken Available</h2>
+          <h1>Ken Available</h1>
           <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label">Ken</InputLabel>
               <Select

@@ -1,10 +1,14 @@
+.container_right{
+    background-image: '../../back.jpeg';
+}
+
 .card{
     width: 150px;
     height:150px;
-    background-color: #070738;
-    font-size: 7px;
+    background-color: #0071b9;
+    font-size: 8px;
     color: white;
-    border:3px #070738 solid;
+    border:3px black solid;
 }
 
 .right{
@@ -23,6 +27,10 @@
     padding-top: 15px;
 
     
+}
+
+.desc{
+    padding: 1px;
 }
 
 

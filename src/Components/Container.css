@@ -8,17 +8,18 @@ body {
    
     display: flex;
     flex-direction: row;
-        font-size: 15px;
+        font-size: 25px;
         text-align: center;
         height: 1000px;
         box-sizing: border-box;
+        font-family: 'Times New Roman', Times, serif;
 }
 
 .sideDrawer{
     flex: 20%;
     height: auto !important ;
     min-height: 100%;
-    background-color: #070738;
+    background-color: #0071b9;
     padding: 10px;
     color: white;
 }
